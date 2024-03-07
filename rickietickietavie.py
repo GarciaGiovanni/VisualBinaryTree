@@ -1,5 +1,5 @@
 import math
-from BinaryTree import Node
+from BinaryTree import *
 import Calculate
 import pygame
 import pygame.gfxdraw
@@ -13,7 +13,15 @@ def main():
     RED = (255, 0, 0)
 
     # Binary Tree
-    Tree = Node(100, 150, 150)
+    Tree = BinaryTree()
+    Tree.add(10)
+    Tree.add(5)
+    Tree.add(7)
+    Tree.add(15)
+    Tree.add(8)
+    Tree.add(4)
+    Tree.print_tree()
+    
     
     # initialize pygame
     pygame.init()
@@ -83,8 +91,7 @@ def main():
         # Handle circle movement and clicks
         if pygame.mouse.get_pressed()[0]:
             if placement and button1.collidepoint(mousePos) != True:
-                Tree.insert(20)
-                print(Tree.left.data)
+
                 placement = False
             elif len(nodeList)!=0 and Calculate.calc_dist((closest._x, closest._y), mousePos) <= closest._radius:
                 closest._x, closest._y = mousePos

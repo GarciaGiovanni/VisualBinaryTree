@@ -1,36 +1,55 @@
 from GameObject import GameObject
 from dataclasses import dataclass
+from GameObject import GameObject
+from dataclasses import dataclass
 
 @dataclass
 class Node(GameObject):
-    def __init__(self, data: int, x: int, y: int):
-        super().__init__(x, y, 35, 35, (255, 255, 255), True)
-        self.left = None
-        self.right = None
-        self.data = data
+    value: int
+    left: 'Node' = None
+    right: 'Node' = None
 
-    def insert(self, data: int):
-        if self.data:
-            if data < self.data:
-                if self.left is None:
-                    self.left = Node(data, 100, 100)
-                    print("LEFT")
-                else:
-                    self.left.insert(data)
-            elif data > self.data:
-                if self.right is None:
-                    self.right = Node(data, 100, 100)
-                    print("RIGHT")
-                else:
-                    self.right.insert(data)
+class BinaryTree:
+    def __init__(self):
+        self.root = None
+
+    def add(self, value):
+        if self.root is None:
+            self.root = Node(value)
         else:
-            print("Hit")
-            self.data = data
-    def PrintTree(self):
-        if self.left:
-            self.left.PrintTree()
-            print( self.data),
-        if self.right:
-            self.right.PrintTree()
-            print( self.data),
-        
+            self._add_recursive(self.root, value)
+
+    def _add_recursive(self, node, value):
+        if value < node.value:
+            if node.left is None:
+                node.left = Node(value)
+            else:
+                self._add_recursive(node.left, value)
+        else:
+            if node.right is None:
+                node.right = Node(value)
+            else:
+                self._add_recursive(node.right, value)
+
+    def print_tree(self):
+        self._print_recursive(self.root)
+
+
+    def _print_recursive(self, node):
+        stack = []
+        current = node
+
+        while True:
+            if current is not None:
+                stack.append(current)
+                current = current.left
+                print("Left")
+            elif stack:
+                current = stack.pop()
+                print(current.value)
+                current = current.right
+                print("Right")
+            else:
+                break
+
+    
